@@ -1,0 +1,8 @@
+# IntelliJ project files
+.idea
+.idea/*
+
+# output files
+results/*
+Assets_raw/*
+stc/*
