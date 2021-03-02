@@ -26,11 +26,11 @@ ch.downloadAsset()
 ch.downloadStc()
 print("\n")
 
-gun = json.load(open("./output/stc/gun.json", encoding='UTF8'))
-skin = json.load(open("./output/stc/skin.json", encoding='UTF8'))
-battle_skill_config = json.load(open("./output/stc/battle_skill_config.json", encoding='UTF8'))
-mission_skill_config = json.load(open("./output/stc/mission_skill_config.json", encoding='UTF8'))
-equip = json.load(open("./output/stc/equip.json", encoding= 'UTF-8'))
+#gun = json.load(open("./output/stc/gun.json", encoding='UTF8'))
+#skin = json.load(open("./output/stc/skin.json", encoding='UTF8'))
+#battle_skill_config = json.load(open("./output/stc/battle_skill_config.json", encoding='UTF8'))
+#mission_skill_config = json.load(open("./output/stc/mission_skill_config.json", encoding='UTF8'))
+#equip = json.load(open("./output/stc/equip.json", encoding= 'UTF-8'))
 
 try:
     if not os.path.exists("./results"):
@@ -39,6 +39,6 @@ except OSError:
     print("Error:: Creating directory failed")
     exit()
 
-JsonUtil.getDollJson(gun, skin, battle_skill_config)
-JsonUtil.getFairyJson(battle_skill_config, mission_skill_config)
-JsonUtil.getEquiptJson(equip)
+#JsonUtil.getDollJson(gun, skin, battle_skill_config)
+#JsonUtil.getFairyJson(battle_skill_config, mission_skill_config)
+#JsonUtil.getEquiptJson(equip)

@@ -10,6 +10,7 @@ import pyDes
 import re
 from Util import Deserializer
 from Util import AssetUnpackUtil
+from Util import JsonUtil
 
 # 추출할 텍스트 목록
 data_list = ["battle_skill_config", "equip", "fairy", "fairy_skin", "gun", "gun_obtain", "mission_skill_config", "skin"]
@@ -133,8 +134,10 @@ class Downloader:
         os.remove("./Assets_raw/" + self.location + "/texts.zip")
 
         print("Unpacking AssetFile")
-        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./results/text/Core/" + self.location, data_list)
-        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./results/text/Extra/" + self.location, extra_list)
+        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./Assets_raw/" + self.location + "/text/Core/", data_list)
+        JsonUtil.getTextAsset(self.location, data_list)
+        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./Assets_raw/" + self.location + "/text/Extra/", extra_list)
+        JsonUtil.getDialogueText(self.location, extra_list)
 
     def getStrUrl(self):
         md5_hash = hashlib.md5()

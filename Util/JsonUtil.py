@@ -72,14 +72,16 @@ def getEquiptJson(arr):
 
     print("\n")
 
+
 def getTextAsset(_location: str, _list: list):
-    src_path = "./Assets/" + _location
-    output_path = "./results/text/" + _location
+    src_path = "./Assets_raw/" + _location + "/text/Core/"
+    output_path = "./results/text/" + _location + "/"
+    os.makedirs(output_path, exist_ok= True)
     for files in os.listdir(src_path):
         file_name = os.path.basename(files)
         data = dict()
         if file_name.split(".")[0] in _list:
-            with open(src_path + file_name, "r") as f:
+            with open(src_path + file_name, "r", encoding='utf-8') as f:
                 lines = f.readlines()
                 for line in lines:
                     string = line.split(",")
@@ -87,25 +89,35 @@ def getTextAsset(_location: str, _list: list):
                         string.append("")
 
                     tmp = dict()
-                    tmp[string[0]] = string[1].replace("//c", ",").replace("//n", "\n")
+                    tmp[string[0]] = string[1].replace("\n", "").replace("//c", ",").replace("//n", "\n")
 
                     data.update(tmp)
 
-        file_name = file_name.split(".")[0] + ".json"
-        with open(output_path + file_name, "wt", encoding='UTF-8') as output:
-            json.dump(data, output, indent=4)
+            file_name = file_name.split(".")[0] + ".json"
+            with open(output_path + file_name, "wt", encoding='UTF-8') as output:
+                json.dump(data, output, indent=4, ensure_ascii= False)
+
 
 def getDialogueText(_locatoin: str, _list: list):
-    src_path = "./Assets/" + _locatoin
-    ouput_path = "./results/extra_text/" + _locatoin
+    src_path = "./Assets_raw/" + _locatoin + "/text/Extra/"
+    output_path = "./results/extra_text/" + _locatoin + "/"
 
+    os.makedirs(output_path, exist_ok= True)
     for files in os.listdir(src_path):
         file_name = os.path.basename(files)
         data = dict()
-        if file_name.split(",")[0] in _list:
-            with open(src_path + file_name, "r") as f:
+        if file_name.split(".")[0] in _list:
+            with open(src_path + file_name, "r", encoding= 'utf-8') as f:
                 lines = f.readlines()
                 for line in lines:
                     string = line.split("|")
-                    if len(string) == 1:
-                        string.append("")
+                    string[1] = string[1].lower()
+
+                    if string[0] not in data.keys():
+                        data[string[0]] = {}
+
+                    data[string[0]].update({string[1] : [string[2].replace("\n", "")]})
+
+            file_name = file_name.split(".")[0] + ".json"
+            with open(output_path + file_name, "wt", encoding='UTF-8') as output:
+                json.dump(data, output, indent=4, ensure_ascii= False)
