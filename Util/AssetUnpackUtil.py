@@ -32,6 +32,7 @@ def unapck_all_asset(src_folder : str, dest_folder : str):
                     with open(dest, "wb") as f:
                         f.write(bytes(data.script))
 
+
 def unpack_asset_filtered(src_path : str, dest_path : str, filter_list : list):
     env = UnityPy.load(src_path)
     os.makedirs(dest_path, exist_ok= True)

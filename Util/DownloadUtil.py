@@ -29,6 +29,7 @@ def _getGameHost(_location):
         print("wrong location code! return china server url instead")
         return "http://gfcn-game.gw.merge.sunborngame.com/index.php/1000/"
 
+
 def _getCDNHost(_location):
     if _location == "kr":
         return "http://gfkrcdn.imtxwy.com/"
@@ -42,6 +43,7 @@ def _getCDNHost(_location):
         print("wrong location code! return china server url instead")
         return "http://gf-cn.cdn.sunborngame.com/"
 
+
 def _getUpdateHost(_location):
     if _location == "kr":
         return "http://sn-list.girlfrontline.co.kr/"
@@ -54,6 +56,7 @@ def _getUpdateHost(_location):
     else:
         print("wrong location code! return china server url instead")
         return "http://gf-cn.cdn.sunborngame.com/"
+
 
 class Downloader:
     def __init__(self, _location):
@@ -73,6 +76,7 @@ class Downloader:
         self.abVersion = req["ab_version"]
 
         print("latest version :" + self.dataVersion)
+
 
     def downloadStc(self):
         stc_url = self.getStrUrl()
@@ -96,6 +100,7 @@ class Downloader:
         print("remove zip file")
         os.remove("./stc/stc.zip")
 
+
     def downloadAsset(self):
         key = "kxwL8X2+fgM="
         iv = "M9lp+7j2Jdwqr+Yj1h+A"
@@ -114,30 +119,12 @@ class Downloader:
         with open("./Assets_raw/" + self.location + "/UnityFS.txt", "wb") as f:
             f.write(req.content)
 
-        res_arr = Deserializer.deserialize("./Assets_raw/" + self.location + "/UnityFS.txt")
-        asset_url = res_arr[0] + res_arr[1] + ".dat"
-        if asset_url == ".dat":
-            print("error")
-            exit()
+        self.legacyFunction("asset_texttable")
+        self.legacyFunction("asset_textes")
 
-        print("Asset URl:" + asset_url)
-        req = requests.get(asset_url)
-        with open("./Assets_raw/" + self.location + "/texts.zip", "wb") as f:
-            f.write(req.content)
-
-        print("extracting text Asset...")
-        asset_zip = zipfile.ZipFile("./Assets_raw/" + self.location + "/texts.zip")
-        asset_zip.extractall("./Assets_raw/" + self.location)
-        asset_zip.close()
-
-        print("remove zip file...")
-        os.remove("./Assets_raw/" + self.location + "/texts.zip")
-
-        print("Unpacking AssetFile")
-        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./Assets_raw/" + self.location + "/text/Core/", data_list)
-        JsonUtil.getTextAsset(self.location, data_list)
         AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./Assets_raw/" + self.location + "/text/Extra/", extra_list)
         JsonUtil.getDialogueText(self.location, extra_list)
+
 
     def getStrUrl(self):
         md5_hash = hashlib.md5()
@@ -146,5 +133,36 @@ class Downloader:
 
         return _getCDNHost(self.location) + "data/stc_" + self.dataVersion + _hash + ".zip"
 
+
     def getAssetUrl(self, _filename):
         return _getUpdateHost(self.location) + _filename + ".txt"
+
+    def legacyFunction(self, _filename):
+        res_arr = Deserializer.deserialize("./Assets_raw/" + self.location + "/UnityFS.txt", _filename)
+        if not res_arr:
+            print("Legacy Detected")
+            return None
+
+        asset_url = res_arr[0] + res_arr[1] + ".dat"
+        if asset_url == ".dat":
+            exit()
+
+        print("Asset URl:" + asset_url)
+        req = requests.get(asset_url)
+        with open("./Assets_raw/" + self.location + "/" + _filename + ".zip", "wb") as f:
+            f.write(req.content)
+
+        print("extracting text Asset...")
+
+        asset_zip = zipfile.ZipFile("./Assets_raw/" + self.location + "/" + _filename + ".zip")
+        asset_zip.extractall("./Assets_raw/" + self.location)
+        asset_zip.close()
+
+        print("remove zip file...")
+        os.remove("./Assets_raw/" + self.location + "/" + _filename + ".zip")
+
+        print("Unpacking AssetFile")
+        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/" + _filename +".ab", "./Assets_raw/" + self.location + "/text/Core/", data_list)
+        JsonUtil.getTextAsset(self.location, data_list)
+
+
