@@ -6,3 +6,6 @@
 results/*
 Assets_raw/*
 stc/*
+
+# cache files
+*.pyc
