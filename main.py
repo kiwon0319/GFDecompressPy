@@ -1,9 +1,11 @@
 # This is python version of GFDecompress
 # Aouthor Guideung in 36Base
 import os
-import json
-from Util import JsonUtil
+import sys
 from Util import DownloadUtil
+
+argv = sys.argv
+args = len(argv)
 
 print("=====kr server data=====")
 kr = DownloadUtil.Downloader("kr")

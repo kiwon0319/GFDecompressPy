@@ -111,12 +111,18 @@ def getDialogueText(_locatoin: str, _list: list):
                 lines = f.readlines()
                 for line in lines:
                     string = line.split("|")
-                    string[1] = string[1].lower()
+                    try:
+                        string[1] = string[1].lower()
+                    except IndexError as e:
+                        print(e)
 
                     if string[0] not in data.keys():
                         data[string[0]] = {}
 
-                    data[string[0]].update({string[1] : [string[2].replace("\n", "")]})
+                    try:
+                        data[string[0]].update({string[1] : [string[2].replace("\n", "")]})
+                    except IndexError as e:
+                        print(line)
 
             file_name = file_name.split(".")[0] + ".json"
             with open(output_path + file_name, "wt", encoding='UTF-8') as output:
