@@ -16,6 +16,7 @@ from Util import JsonUtil
 data_list = ["battle_skill_config", "equip", "fairy", "fairy_skin", "gun", "gun_obtain", "mission_skill_config", "skin"]
 extra_list = ["NewCharacterVoice"]
 
+
 def _getGameHost(_location):
     if _location == "kr":
         return "http://gf-game.girlfrontline.co.kr/index.php/1001/"
@@ -64,9 +65,9 @@ class Downloader:
 
         self.url = _getGameHost(_location) + "Index/version"
         self.header = {
-            "User-Agent" : "Dalvic/2.1.0 (Linux; U; Android 9; SM-N935k Build/PPR1.180610.011)",
-            "X-Unity_Version" : "2017.4.33f1",
-            "Content-Type" : "application/x-www-form-urlencoded"
+            "User-Agent": "Dalvic/2.1.0 (Linux; U; Android 9; SM-N935k Build/PPR1.180610.011)",
+            "X-Unity_Version": "2017.4.33f1",
+            "Content-Type": "application/x-www-form-urlencoded"
         }
         req = requests.post(self.url, headers=self.header).json()
 
@@ -77,12 +78,11 @@ class Downloader:
 
         print("latest version :" + self.dataVersion)
 
-
     def downloadStc(self):
         stc_url = self.getStrUrl()
 
         if os.path.exists("./stc"):
-           shutil.rmtree("./stc")
+            shutil.rmtree("./stc")
         os.mkdir("./stc")
 
         print("downloading latest data...")
@@ -100,7 +100,6 @@ class Downloader:
         print("remove zip file")
         os.remove("./stc/stc.zip")
 
-
     def downloadAsset(self):
         key = "kxwL8X2+fgM="
         iv = "M9lp+7j2Jdwqr+Yj1h+A"
@@ -113,7 +112,7 @@ class Downloader:
 
         filename = re.sub('[^a-zA-Z0-9]', "", encrypted_version.decode('utf-8'))
 
-        os.makedirs("./Assets_raw/" + self.location, exist_ok= True)
+        os.makedirs("./Assets_raw/" + self.location, exist_ok=True)
 
         req = requests.get(self.getAssetUrl(filename))
         with open("./Assets_raw/" + self.location + "/UnityFS.txt", "wb") as f:
@@ -122,9 +121,12 @@ class Downloader:
         self.legacyFunction("asset_texttable")
         self.legacyFunction("asset_textes")
 
-        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/asset_textes.ab", "./Assets_raw/" + self.location + "/text/Extra/", extra_list)
+        AssetUnpackUtil.unpack_asset_filtered(
+            "./Assets_raw/" + self.location + "/asset_textes.ab",
+            "./Assets_raw/" + self.location + "/text/Extra/",
+            extra_list
+        )
         JsonUtil.getDialogueText(self.location, extra_list)
-
 
     def getStrUrl(self):
         md5_hash = hashlib.md5()
@@ -132,7 +134,6 @@ class Downloader:
         _hash = md5_hash.hexdigest()
 
         return _getCDNHost(self.location) + "data/stc_" + self.dataVersion + _hash + ".zip"
-
 
     def getAssetUrl(self, _filename):
         return _getUpdateHost(self.location) + _filename + ".txt"
@@ -162,7 +163,9 @@ class Downloader:
         os.remove("./Assets_raw/" + self.location + "/" + _filename + ".zip")
 
         print("Unpacking AssetFile")
-        AssetUnpackUtil.unpack_asset_filtered("./Assets_raw/" + self.location + "/" + _filename +".ab", "./Assets_raw/" + self.location + "/text/Core/", data_list)
+        AssetUnpackUtil.unpack_asset_filtered(
+            "./Assets_raw/" + self.location + "/" + _filename + ".ab",
+            "./Assets_raw/" + self.location + "/text/Core/",
+            data_list
+        )
         JsonUtil.getTextAsset(self.location, data_list)
-
-

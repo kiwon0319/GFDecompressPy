@@ -1,8 +1,9 @@
-#-*-coding:utf-8-*-
+# -*-coding:utf-8-*-
 import UnityPy
 import os
 
-def unapck_all_asset(src_folder : str, dest_folder : str):
+
+def unapck_all_asset(src_folder: str, dest_folder: str):
     for root, dirs, files in os.walk(src_folder):
         for file_name in files:
             file_path = os.path.join(root, file_name)
@@ -14,7 +15,7 @@ def unapck_all_asset(src_folder : str, dest_folder : str):
 
                     dest = os.path.join(dest_folder, *path.split("/"))
 
-                    os.makedirs(os.path.dirname(dest), exist_ok= True)
+                    os.makedirs(os.path.dirname(dest), exist_ok=True)
 
                     dest, ext = os.path.splitext(dest)
                     dest += ".png"
@@ -25,7 +26,7 @@ def unapck_all_asset(src_folder : str, dest_folder : str):
 
                     dest = os.path.join(dest_folder, *path.split("/"))
 
-                    os.makedirs(os.path.dirname(dest), exist_ok= True)
+                    os.makedirs(os.path.dirname(dest), exist_ok=True)
 
                     dest, ext = os.path.splitext(dest)
                     dest += ".txt"
@@ -33,9 +34,9 @@ def unapck_all_asset(src_folder : str, dest_folder : str):
                         f.write(bytes(data.script))
 
 
-def unpack_asset_filtered(src_path : str, dest_path : str, filter_list : list):
+def unpack_asset_filtered(src_path: str, dest_path: str, filter_list: list):
     env = UnityPy.load(src_path)
-    os.makedirs(dest_path, exist_ok= True)
+    os.makedirs(dest_path, exist_ok=True)
 
     for obj in env.objects:
         if obj.type in ["Texture2D", "Sprite"]:
