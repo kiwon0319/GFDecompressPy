@@ -9,3 +9,6 @@ stc/*
 
 # cache files
 *.pyc
+
+# virtual environment files
+venv/*
