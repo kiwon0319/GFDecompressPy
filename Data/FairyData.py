@@ -68,9 +68,9 @@ class FairyData:
                 skill_obj = {"level": element["level"], "cooldown": element["cd_time"]}
                 self._skill["dataPool"].append(skill_obj)
 
-        self._grow = int(fairy_obj["grow"])                                                                                 # grow ratio
-        self._build_time = int(fairy_obj["develop_duration"])                                                               # build time
-        self._codename = fairy_obj["code"]                                                                                  # code name
+        self._grow = int(fairy_obj["grow"])                                            # build time
+        self._codename = fairy_obj["code"]                                                                                                                  # grow ratio
+        self._build_time = int(fairy_obj["develop_duration"])                                                                    # code name
 
         self.powerup = dict()                               # fiary upgrade cost
         self.powerup["mp"] = fairy_obj["powerup_mp"]        # manpower

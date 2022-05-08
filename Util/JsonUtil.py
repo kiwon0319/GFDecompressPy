@@ -6,6 +6,12 @@ from Data.GunData import GunData
 from Data.EquipData import EquipData
 from Data.FairyData import FairyData
 
+dest = {
+    "kr": "ko-KR",
+    "en": "en-US",
+    "jp": "ja-JP",
+    "ch": "zh-CN"
+}
 
 def getDollJson(arr, skin_list, skill_list):
     print("인형 데이터 추출 시작")
@@ -75,7 +81,7 @@ def getEquiptJson(arr):
 
 def getTextAsset(_location: str, _list: list):
     src_path = "./Assets_raw/" + _location + "/text/Core/"
-    output_path = "./results/text/" + _location + "/"
+    output_path = "./results/text/" + dest[_location] + "/"
     os.makedirs(output_path, exist_ok= True)
     for files in os.listdir(src_path):
         file_name = os.path.basename(files)
@@ -100,7 +106,7 @@ def getTextAsset(_location: str, _list: list):
 
 def getDialogueText(_locatoin: str, _list: list):
     src_path = "./Assets_raw/" + _locatoin + "/text/Extra/"
-    output_path = "./results/extra_text/" + _locatoin + "/"
+    output_path = "./results/extra_text/" + dest[_locatoin] + "/"
 
     os.makedirs(output_path, exist_ok= True)
     for files in os.listdir(src_path):

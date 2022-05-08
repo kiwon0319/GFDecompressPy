@@ -144,23 +144,23 @@ class Downloader:
             print("Legacy Detected")
             return None
 
-        asset_url = res_arr[0] + res_arr[1] + ".dat"
+        asset_url = res_arr[0] + res_arr[1] + ".ab"
         if asset_url == ".dat":
             exit()
 
         print("Asset URl:" + asset_url)
         req = requests.get(asset_url)
-        with open("./Assets_raw/" + self.location + "/" + _filename + ".zip", "wb") as f:
+        with open("./Assets_raw/" + self.location + "/" + _filename + ".ab", "wb") as f:
             f.write(req.content)
 
-        print("extracting text Asset...")
+        # print("extracting text Asset...")
 
-        asset_zip = zipfile.ZipFile("./Assets_raw/" + self.location + "/" + _filename + ".zip")
-        asset_zip.extractall("./Assets_raw/" + self.location)
-        asset_zip.close()
+        #asset_zip = zipfile.ZipFile("./Assets_raw/" + self.location + "/" + _filename + ".zip")
+        #asset_zip.extractall("./Assets_raw/" + self.location)
+        #asset_zip.close()
 
-        print("remove zip file...")
-        os.remove("./Assets_raw/" + self.location + "/" + _filename + ".zip")
+        #print("remove zip file...")
+        #os.remove("./Assets_raw/" + self.location + "/" + _filename + ".zip")
 
         print("Unpacking AssetFile")
         AssetUnpackUtil.unpack_asset_filtered(

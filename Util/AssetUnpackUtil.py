@@ -10,7 +10,7 @@ def unapck_all_asset(src_folder: str, dest_folder: str):
             env = UnityPy.load(file_path)
 
             for path, obj in env.container.items():
-                if obj.type in ["Texture2D", "Sprite"]:
+                if obj.type.name in ["Texture2D", "Sprite"]:
                     data = obj.read()
 
                     dest = os.path.join(dest_folder, *path.split("/"))
@@ -21,7 +21,7 @@ def unapck_all_asset(src_folder: str, dest_folder: str):
                     dest += ".png"
                     data.image.save(dest)
 
-                if obj.type == "TextAsset":
+                if obj.type.name == "TextAsset":
                     data = obj.read()
 
                     dest = os.path.join(dest_folder, *path.split("/"))
@@ -39,7 +39,7 @@ def unpack_asset_filtered(src_path: str, dest_path: str, filter_list: list):
     os.makedirs(dest_path, exist_ok=True)
 
     for obj in env.objects:
-        if obj.type in ["Texture2D", "Sprite"]:
+        if obj.type.name in ["Texture2D", "Sprite"]:
             data = obj.read()
 
             if data.name in filter_list:
@@ -49,7 +49,7 @@ def unpack_asset_filtered(src_path: str, dest_path: str, filter_list: list):
 
                 data.image.save(dest)
 
-        if obj.type == "TextAsset":
+        if obj.type.name == "TextAsset":
             data = obj.read()
 
             if data.name in filter_list:
