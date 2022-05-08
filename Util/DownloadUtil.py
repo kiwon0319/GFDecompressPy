@@ -8,7 +8,7 @@ import zipfile
 import base64
 import pyDes
 import re
-from Util import Deserializer
+import UnityPy
 from Util import AssetUnpackUtil
 from Util import JsonUtil
 
@@ -57,6 +57,21 @@ def _getUpdateHost(_location):
     else:
         print("wrong location code! return china server url instead")
         return "http://gf-cn.cdn.sunborngame.com/"
+
+
+def deserialize(_file_path, _file_name):
+    with open(_file_path, "rb") as f:
+        bundle = UnityPy.load(f)
+
+    obj_ptr = bundle.container.get("assets/resources/resdata.asset")
+    data = obj_ptr.get_obj().read_typetree()
+
+    res_url = data["resUrl"]
+    for key, value in enumerate(data["BaseAssetBundles"]):
+        if value["assetBundleName"] == _file_name:
+            res_name = value["resname"]
+
+    return [res_url, res_name]
 
 
 class Downloader:
@@ -139,7 +154,7 @@ class Downloader:
         return _getUpdateHost(self.location) + _filename + ".txt"
 
     def legacyFunction(self, _filename):
-        res_arr = Deserializer.deserialize("./Assets_raw/" + self.location + "/UnityFS.txt", _filename)
+        res_arr = deserialize("./Assets_raw/" + self.location + "/UnityFS.txt", _filename)
         if not res_arr:
             print("Legacy Detected")
             return None
