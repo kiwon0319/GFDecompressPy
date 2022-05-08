@@ -1,8 +1,9 @@
 # GFDecompressPy
 
 # Dependency
-``
-requests
-UnityPy
-PyDes
-``
+
+`requests`
+
+`UnityPy`
+
+`PyDes`
