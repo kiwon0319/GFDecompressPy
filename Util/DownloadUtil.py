@@ -27,7 +27,7 @@ def _getGameHost(_location):
     elif _location == "ch":
         return "http://gfcn-game.gw.merge.sunborngame.com/index.php/1000/"
     else:
-        print("wrong location code! return china server url instead")
+        print("wrong location code! return taiwan server url instead")
         return "http://gfcn-game.gw.merge.sunborngame.com/index.php/1000/"
 
 
@@ -67,6 +67,7 @@ def deserialize(_file_path, _file_name):
     data = obj_ptr.get_obj().read_typetree()
 
     res_url = data["resUrl"]
+    res_name = ""
     for key, value in enumerate(data["BaseAssetBundles"]):
         if value["assetBundleName"] == _file_name:
             res_name = value["resname"]
@@ -80,8 +81,8 @@ class Downloader:
 
         self.url = _getGameHost(_location) + "Index/version"
         self.header = {
-            "User-Agent": "Dalvic/2.1.0 (Linux; U; Android 9; SM-N935k Build/PPR1.180610.011)",
-            "X-Unity_Version": "2017.4.33f1",
+            "User-Agent": "Dalvic/2.1.0 (Linux; U; Android 12; SM-F916N Build/SP1A.210812.016)",
+            "X-Unity_Version": "2017.4.40c1",
             "Content-Type": "application/x-www-form-urlencoded"
         }
         req = requests.post(self.url, headers=self.header).json()
@@ -167,15 +168,6 @@ class Downloader:
         req = requests.get(asset_url)
         with open("./Assets_raw/" + self.location + "/" + _filename + ".ab", "wb") as f:
             f.write(req.content)
-
-        # print("extracting text Asset...")
-
-        #asset_zip = zipfile.ZipFile("./Assets_raw/" + self.location + "/" + _filename + ".zip")
-        #asset_zip.extractall("./Assets_raw/" + self.location)
-        #asset_zip.close()
-
-        #print("remove zip file...")
-        #os.remove("./Assets_raw/" + self.location + "/" + _filename + ".zip")
 
         print("Unpacking AssetFile")
         AssetUnpackUtil.unpack_asset_filtered(

@@ -1,5 +1,5 @@
 # This is python version of GFDecompress
-# Aouthor: Guideung
+# Author: Guideung
 import os
 import sys
 from Util import DownloadUtil
@@ -10,6 +10,7 @@ args = len(argv)
 print("=====kr server data=====")
 kr = DownloadUtil.Downloader("kr")
 kr.downloadAsset()
+kr.downloadStc()
 print("\n")
 
 print("=====global server data=====")
@@ -26,8 +27,7 @@ print("=====ch server data=====")
 ch = DownloadUtil.Downloader("ch")
 ch.downloadAsset()
 
-ch.downloadStc()
-print("\n")
+# print("\n")
 
 # gun = json.load(open("./output/stc/gun.json", encoding='UTF8'))
 # skin = json.load(open("./output/stc/skin.json", encoding='UTF8'))
