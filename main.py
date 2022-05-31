@@ -7,25 +7,70 @@ from Util import DownloadUtil
 argv = sys.argv
 args = len(argv)
 
-print("=====kr server data=====")
-kr = DownloadUtil.Downloader("kr")
-kr.downloadAsset()
-kr.downloadStc()
-print("\n")
+while True:
+    try:
+        print("=====kr server data=====")
+        kr = DownloadUtil.Downloader("kr")
+        kr.downloadAsset()
+        kr.downloadStc()
+        print("\n")
+    except:
+        print("다운로드 오류 재시도 하겠습니까? [y/N]")
+        a = input()
+        if a == 'y' or a == 'Y':
+            continue
+        else:
+            break
+    else:
+        break
 
-print("=====global server data=====")
-en = DownloadUtil.Downloader("en")
-en.downloadAsset()
-print("\n")
+while True:
+    try:
+        print("=====global server data=====")
+        en = DownloadUtil.Downloader("en")
+        en.downloadAsset()
+        print("\n")
+    except:
+        print("다운로드 오류 재시도 하겠습니까? [y/N]")
+        a = input()
+        if a == 'y' or a == 'Y':
+            continue
+        else:
+            break
+    else:
+        break
 
-print("=====jp server data=====")
-jp = DownloadUtil.Downloader("jp")
-jp.downloadAsset()
-print("\n")
+while True:
+    try:
+        print("=====jp server data=====")
+        jp = DownloadUtil.Downloader("jp")
+        jp.downloadAsset()
+        print("\n")
+    except:
+        print("다운로드 오류 재시도 하겠습니까? [y/N]")
+        a = input()
+        if a == 'y' or a == 'Y':
+            continue
+        else:
+            break
+    else:
+        break
 
-print("=====ch server data=====")
-ch = DownloadUtil.Downloader("ch")
-ch.downloadAsset()
+while True:
+    try:
+        print("=====ch server data=====")
+        ch = DownloadUtil.Downloader("ch")
+        ch.downloadAsset()
+        print("\n")
+    except:
+        print("다운로드 오류 재시도 하겠습니까? [y/N]")
+        a = input()
+        if a == 'y' or a == 'Y':
+            continue
+        else:
+            break
+    else:
+        break
 
 # print("\n")
 
